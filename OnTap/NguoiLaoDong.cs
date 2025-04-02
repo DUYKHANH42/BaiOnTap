@@ -61,7 +61,10 @@ namespace OnTap
             } while (gioitinh != "NAM" && gioitinh != "NỮ" && gioitinh != "KHÁC");
 
             Console.Write("Nhập năm sinh: ");
-            Namsinh = int.Parse(Console.ReadLine());
+            if(!int.TryParse(Console.ReadLine(), out namsinh))
+            {
+                Console.WriteLine("Năm sinh không hợp lệ. Vui lòng nhập lại!");
+            }
         }
         public abstract int TinhLuong();
 

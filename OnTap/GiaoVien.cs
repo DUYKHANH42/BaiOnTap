@@ -26,7 +26,10 @@ namespace OnTap
         {
             base.Nhap();
             Console.Write("Nhập số tiết dạy: ");
-            sotietday = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out sotietday))
+            {
+                Console.WriteLine("Số tiết dạy không hợp lệ. Vui lòng nhập lại!");
+            }
         }
         public override int TinhLuong()
         {

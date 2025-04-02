@@ -19,6 +19,19 @@ namespace OnTap
             ListNLD.Add(new GiaoVien("GV01", "Trần Văn C", "Nam", 1980, 40));
             ListNLD.Add(new GiaoVien("GV02", "Trần Thị D", "Nữ", 1981, 35));
         }
+        public bool KiemTraMaso(string maso)
+        {
+
+            foreach (NguoiLaoDong nld in ListNLD)
+            {
+                if (nld.Maso == maso)
+                {
+                    Console.WriteLine("Mã số {0} đã tồn tại!", maso);
+                    return false;
+                }  
+            }
+            return true;
+        } 
         public void Nhap()
         {
             //Nhập thông tin người lao động và thêm vào danh sách ListNLD
@@ -32,13 +45,19 @@ namespace OnTap
                 {
                     nld = new NhanVien();
                     nld.Nhap();
-                    ListNLD.Add(nld);
+                   if (KiemTraMaso(nld.Maso))
+                    {
+                        ListNLD.Add(nld);
+                    }
                 }
                 else if (chon == 2)
                 {
                     nld = new GiaoVien();
                     nld.Nhap();
-                    ListNLD.Add(nld);
+                    if (KiemTraMaso(nld.Maso))
+                    {
+                        ListNLD.Add(nld);
+                    }
                 }
                 Console.Write("Bạn có muốn nhập tiếp không? (y/n): ");
                 choice = Console.ReadLine();

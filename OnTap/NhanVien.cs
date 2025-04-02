@@ -26,7 +26,10 @@ namespace OnTap
         {
             base.Nhap();
             Console.Write("Nhập hệ số lương: ");
-            hesoluong = float.Parse(Console.ReadLine());
+            if(!float.TryParse(Console.ReadLine(), out hesoluong))
+            {
+                Console.WriteLine("Hệ số lương không hợp lệ. Vui lòng nhập lại!");
+            }
         }
         public override int TinhLuong()
         {
