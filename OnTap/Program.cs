@@ -28,10 +28,10 @@ namespace OnTap
                         tt.Xuat();
                         break;
                     case 3:
-                        Console.WriteLine("Tổng lương: " + tt.TinhTongLuong().ToString("#,00 VND"));
+                        Console.WriteLine("Tổng lương: " + tt.TinhTongLuong().ToString("N0")+ " VND");
                         break;
                     case 4:
-                        Console.WriteLine("Lương trung bình: " + tt.TinhLuongTB().ToString("#,00 VND"));
+                        Console.WriteLine("Lương trung bình: " + tt.TinhLuongTB().ToString("N0")+" VND");
                         break;
                     case 5:
                         Console.WriteLine("Hẹn Gặp Lại");

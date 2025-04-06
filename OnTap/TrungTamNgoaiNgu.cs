@@ -5,49 +5,54 @@ namespace OnTap
 {
     public class TrungTamNgoaiNgu
     {
-        private string tentrungtam;
-        List<NguoiLaoDong> ListNLD = new List<NguoiLaoDong>();
+        private string tenTrungTam;
+        List<NguoiLaoDong> listNLD = new List<NguoiLaoDong>();
         public TrungTamNgoaiNgu()
         {
-            ListNLD = new List<NguoiLaoDong>();
-            tentrungtam = "Trung tâm ngoại ngữ ABC";
+            tenTrungTam = "Trung tâm ngoại ngữ ABC";
         }
         public void DuLieu()
         {
-            ListNLD.Add(new NhanVien("NV01", "Nguyễn Văn A", "Nam", 1990, 2.5f));
-            ListNLD.Add(new NhanVien("NV02", "Nguyễn Thị B", "Nữ", 1991, 3.0f));
-            ListNLD.Add(new GiaoVien("GV01", "Trần Văn C", "Nam", 1980, 40));
-            ListNLD.Add(new GiaoVien("GV02", "Trần Thị D", "Nữ", 1981, 35));
+            listNLD.Add(new NhanVien("NV01", "Nguyễn Văn A", "Nam", 1990, 2.5f));
+            listNLD.Add(new NhanVien("NV02", "Nguyễn Thị B", "Nữ", 1991, 3.0f));
+            listNLD.Add(new GiaoVien("GV01", "Trần Văn C", "Nam", 1980, 40));
+            listNLD.Add(new GiaoVien("GV02", "Trần Thị D", "Nữ", 1981, 35));
         }
         public bool KiemTraMaso(string maso)
         {
 
-            foreach (NguoiLaoDong nld in ListNLD)
+            foreach (NguoiLaoDong nld in listNLD)
             {
                 if (nld.Maso == maso)
                 {
                     Console.WriteLine("Mã số {0} đã tồn tại!", maso);
                     return false;
-                }  
+                }
             }
             return true;
-        } 
+        }
+
         public void Nhap()
         {
-            //Nhập thông tin người lao động và thêm vào danh sách ListNLD
+            //Nhập thông tin người lao động và thêm vào danh sách listNLD
             string choice;
             do
             {
                 Console.WriteLine("Chọn loại người lao động (1-Nhân viên, 2-Giáo viên): ");
-                int chon = int.Parse(Console.ReadLine());
+                int chon;
+                while (!int.TryParse(Console.ReadLine(), out chon) || (chon != 1 && chon != 2))
+                {
+                    Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại!");
+                    Console.WriteLine("Chọn loại người lao động (1-Nhân viên, 2-Giáo viên): ");
+                }
                 NguoiLaoDong nld;
                 if (chon == 1)
                 {
                     nld = new NhanVien();
                     nld.Nhap();
-                   if (KiemTraMaso(nld.Maso))
+                    if (KiemTraMaso(nld.Maso))
                     {
-                        ListNLD.Add(nld);
+                        listNLD.Add(nld);
                     }
                 }
                 else if (chon == 2)
@@ -56,7 +61,7 @@ namespace OnTap
                     nld.Nhap();
                     if (KiemTraMaso(nld.Maso))
                     {
-                        ListNLD.Add(nld);
+                        listNLD.Add(nld);
                     }
                 }
                 Console.Write("Bạn có muốn nhập tiếp không? (y/n): ");
@@ -65,20 +70,36 @@ namespace OnTap
         }
         public void Xuat()
         {
-            //Xuất thông tin người lao động trong danh sách ListNLD
-            Console.WriteLine("========="+tentrungtam+"=========");
+            //Xuất thông tin người lao động trong danh sách listNLD
+            Console.WriteLine("=========" + tenTrungTam + "=========");
             Console.WriteLine("{0,-15} {1,-20} {2,15} {3,15} {4,20}"
                 , "Mã số", "Họ tên", "Giới tính", "Năm sinh", "Lương");
-            foreach (NguoiLaoDong nld in ListNLD)
+
+            foreach (NguoiLaoDong nld in listNLD)
             {
+                string formatGioiTinh = nld.Gioitinh.ToUpper();
+                if (formatGioiTinh == "NAM")
+                {
+                    formatGioiTinh = "Nam";
+                }
+                else if (formatGioiTinh == "NỮ")
+                {
+                    formatGioiTinh = "Nữ";
+                }
+                else if(formatGioiTinh=="KHÁC")
+                {
+                    formatGioiTinh = "Khác";
+                }
+
+
                 Console.WriteLine("{0,-15} {1,-20} {2,15} {3,15} {4,20}"
-                    , nld.Maso, nld.Hoten, nld.Gioitinh, nld.Namsinh, nld.TinhLuong().ToString("#,00 VND"));
+                    , nld.Maso, nld.Hoten, formatGioiTinh, nld.Namsinh, nld.TinhLuong().ToString("N0") + "VND");
             }
         }
         public int TinhTongLuong()
         {
             double tongluong = 0;
-            foreach (NguoiLaoDong nld in ListNLD)
+            foreach (NguoiLaoDong nld in listNLD)
             {
                 tongluong += nld.TinhLuong();
             }
@@ -87,11 +108,15 @@ namespace OnTap
         public float TinhLuongTB()
         {
             float sum = 0;
-            foreach (NguoiLaoDong nguoilaodong in ListNLD)
+            foreach (NguoiLaoDong nguoilaodong in listNLD)
             {
-                sum +=nguoilaodong.TinhLuong() ;
+                sum += nguoilaodong.TinhLuong();
             }
-            float avg = sum / ListNLD.Count;
+            if (listNLD.Count == 0)
+            {
+                return 0; // Tránh chia cho 0
+            }
+            float avg = sum / listNLD.Count;
             return avg;
         }
     }

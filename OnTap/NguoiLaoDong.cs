@@ -42,26 +42,34 @@ namespace OnTap
             get { return namsinh; }
             set { namsinh = value; }
         }
+        protected bool kiemTraGioiTinh()
+        {
+            Console.WriteLine("Nhập giới tính (NAM/NỮ/KHÁC): ");
+            Gioitinh = Console.ReadLine().Trim().ToUpper();
+            if (Gioitinh.ToUpper() == "NAM" || Gioitinh.ToUpper() == "NỮ" || Gioitinh.ToUpper() == "KHÁC")
+            {
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Giới tính không hợp lệ. Vui lòng nhập lại!");
+                while (Gioitinh.ToUpper() != "NAM" && Gioitinh.ToUpper() != "NỮ" && Gioitinh.ToUpper() != "KHÁC")
+                {
+                    Console.WriteLine("Nhập giới tính (NAM/NỮ/KHÁC): ");
+                    Gioitinh = Console.ReadLine().Trim().ToUpper();
+                }
+                return false;
+            }
+        }
         public virtual void Nhap()
         {
             Console.Write("Nhập mã số: ");
             Maso = Console.ReadLine();
             Console.Write("Nhập họ tên: ");
             Hoten = Console.ReadLine();
-            do
-            {
-                Console.Write("Nhập giới tính (Nam / Nữ / Khác): ");
-                gioitinh = Console.ReadLine().Trim().ToUpper();  // Đảm bảo nhập đúng định dạng (không có dấu, chữ hoa)
-
-                if (gioitinh != "NAM" && gioitinh != "NỮ" && gioitinh != "KHÁC")
-                {
-                    Console.WriteLine("Giới tính không hợp lệ. Vui lòng nhập lại!");
-                }
-
-            } while (gioitinh != "NAM" && gioitinh != "NỮ" && gioitinh != "KHÁC");
-
+            kiemTraGioiTinh();
             Console.Write("Nhập năm sinh: ");
-            if(!int.TryParse(Console.ReadLine(), out namsinh))
+            if (!int.TryParse(Console.ReadLine(), out namsinh))
             {
                 Console.WriteLine("Năm sinh không hợp lệ. Vui lòng nhập lại!");
             }
